@@ -20,4 +20,5 @@
     <string name="see_the_newly_uploaded_video">See the newly uploaded video</string>
     <string name="playing_the_video_in_upload_progress">Playing the video in upload progress</string>
     <string name="button_record">Record</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
 </resources>

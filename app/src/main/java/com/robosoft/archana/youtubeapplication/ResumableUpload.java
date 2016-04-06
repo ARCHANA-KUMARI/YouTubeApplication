@@ -54,6 +54,7 @@ public class ResumableUpload {
 
     public static String upload(YouTube youtube, final InputStream fileInputStream,
                                 final long fileSize, final Uri mFileUri, final String path, final Context context) {
+
         final NotificationManager notifyManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

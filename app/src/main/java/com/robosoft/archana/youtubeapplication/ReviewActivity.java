@@ -36,7 +36,7 @@ public class ReviewActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         mUploadButton = (Button)findViewById(R.id.upload_button);
-        mVideoView = (VideoView)findViewById(R.id.videoView);
+      //  mVideoView = (VideoView)findViewById(R.id.videoView);
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             mUploadButton.setVisibility(View.GONE);
@@ -62,6 +62,7 @@ public class ReviewActivity extends AppCompatActivity {
             Log.e(this.getLocalClassName(), e.toString());
         }
     }
+    //TODO
     private void loadAccount() {
         SharedPreferences sp = PreferenceManager
                 .getDefaultSharedPreferences(this);
@@ -71,14 +72,14 @@ public class ReviewActivity extends AppCompatActivity {
 
     public void uploadVideo(View view) {
         Log.i("Hello","I am uploadVideo Method of Review Activity");
-        Log.i("Hello","mChosenAccountName is"+mChosenAccountName);
+        Log.i("Hello","mChosenAccountName is"+mChosenAccountName);//NULL JUST FOR CHECK
 //        if (mChosenAccountName == null) {
 //            return;
 //        }
         // if a video is picked or recorded.
         Log.i("Hello","mFile uri is"+mFileUri);
         if (mFileUri != null) {
-            Log.i("Hello","I AM IN IF METHOD OF mFileUri");
+
             Intent uploadIntent = new Intent(this, UploadService.class);
             uploadIntent.setData(mFileUri);
             uploadIntent.putExtra(Constants.ACCOUNT_KEY, "ms.archana57@gmail.com");
@@ -86,7 +87,7 @@ public class ReviewActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.youtube_upload_started,
                     Toast.LENGTH_LONG).show();
             // Go back to MainActivity after upload
-            Log.i("Hello","Hellllo i am afffffffff00");
+
             finish();
         }
     }

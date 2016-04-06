@@ -30,6 +30,7 @@ public class UploadService extends IntentService {
     public UploadService() {
         super("YTUploadService");
     }
+
     GoogleAccountCredential credential;
     final HttpTransport transport = AndroidHttp.newCompatibleTransport();
     final JsonFactory jsonFactory = new GsonFactory();
@@ -40,12 +41,13 @@ public class UploadService extends IntentService {
     private static final int PROCESSING_POLL_INTERVAL_SEC = 60;
     private static final int PROCESSING_TIMEOUT_SEC = 60 * 20; // 20 minutes
     int count = 0;
+
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i("Hello","I am in onHandleIntent");
+
         Uri fileUri = intent.getData();
         String chosenAccountName = intent.getStringExtra(Constants.ACCOUNT_KEY);
-        Log.i("Hello","ChosenAccountName is"+chosenAccountName);
+
         credential = GoogleAccountCredential.usingOAuth2(getApplicationContext(), Lists.newArrayList(Auth.SCOPES));
         credential.setSelectedAccountName(chosenAccountName);
         credential.setBackOff(new ExponentialBackOff());
@@ -59,14 +61,14 @@ public class UploadService extends IntentService {
             // ignore
         }
     }
+
     private void tryUploadAndShowSelectableNotification(final Uri fileUri, final YouTube youtube) throws InterruptedException {
-        Log.i("Hello", "I am in tryUploadAndShowSelectableNotification");
+
         while (true) {
-            Log.i("Hello","I am inside while loop of Upload Service"+"And Count is"+count);
-            Log.i("Hello", "I am Service Class of tryUpload"+String.format("Uploading [%s] to YouTube", fileUri.toString()));
+
+            Log.i("Hello", "I am Service Class of tryUpload" + String.format("Uploading [%s] to YouTube", fileUri.toString()));
             String videoId = tryUpload(fileUri, youtube);
-            Log.i("Hello","VideoId is"+videoId);
-            Log.i("Hello","Vedeio Id is"+videoId);
+
             if (videoId != null) {
                 Log.i("Hello", String.format("Uploaded video with ID: %s", videoId));
                 tryShowSelectableNotification(videoId, youtube);
@@ -85,14 +87,16 @@ public class UploadService extends IntentService {
             }
         }
     }
+
     private static void zzz(int duration) throws InterruptedException {
-        Log.i("Hello","I am in zzz method");
+        Log.i("Hello", "I am in zzz method");
         Log.d("Hello", String.format("Sleeping for [%d] ms ...", duration));
         Thread.sleep(duration);
         Log.d("Hello", String.format("Sleeping for [%d] ms ... done", duration));
     }
+
     private static boolean timeoutExpired(long startTime, int timeoutSeconds) {
-        Log.i("Hello","I am in tiemoutExpired");
+
         long currTime = System.currentTimeMillis();
         long elapsed = currTime - startTime;
         if (elapsed >= timeoutSeconds * 1000) {
@@ -101,8 +105,9 @@ public class UploadService extends IntentService {
             return false;
         }
     }
+
     private String tryUpload(Uri mFileUri, YouTube youtube) {
-        Log.i("Hello", "I am in tryUpload");
+
         long fileSize;
         InputStream fileInputStream = null;
         String videoId = null;
@@ -114,7 +119,7 @@ public class UploadService extends IntentService {
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
 
-              videoId = ResumableUpload.upload(youtube, fileInputStream, fileSize, mFileUri, cursor.getString(column_index), getApplicationContext());
+            videoId = ResumableUpload.upload(youtube, fileInputStream, fileSize, mFileUri, cursor.getString(column_index), getApplicationContext());
 
 
         } catch (FileNotFoundException e) {
@@ -133,11 +138,11 @@ public class UploadService extends IntentService {
 
     private void tryShowSelectableNotification(final String videoId, final YouTube youtube)
             throws InterruptedException {
-        Log.i("Hello","I am in trySHowSelectableNotification");
+
         mStartTime = System.currentTimeMillis();
         boolean processed = false;
         while (!processed) {
-            Log.i("Hello","I am in while loop(process");
+           
             processed = ResumableUpload.checkIfProcessed(videoId, youtube);
             if (!processed) {
                 // wait a while
@@ -151,8 +156,8 @@ public class UploadService extends IntentService {
                     return;
                 }
             } else {
-               ResumableUpload.showSelectableNotification(videoId, getApplicationContext());
-               return;
+                ResumableUpload.showSelectableNotification(videoId, getApplicationContext());
+                return;
             }
         }
     }

@@ -29,5 +29,6 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:+'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.google.api-client:google-api-client-gson:+'
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
 
 }
