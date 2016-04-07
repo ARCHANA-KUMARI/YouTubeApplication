@@ -43,9 +43,9 @@
         android:hint="@string/button_record"
         android:maxLines="2"
         android:onClick="recordVideo"
-        android:padding="8dp"
+        android:padding="@dimen/uploadbtnpadding"
         android:textAppearance="?android:textAppearanceLarge"
-        android:textColorHint="#c00"
+        android:textColorHint="@color/uploadbtncolor"
         android:textStyle="bold" />
 
 </LinearLayout>
