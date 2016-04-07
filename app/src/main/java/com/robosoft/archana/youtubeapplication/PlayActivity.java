@@ -58,6 +58,7 @@ public class PlayActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == RECOVERY_DIALOG_REQUEST) {
             // Retry initialization if user performed a recovery action
             getYouTubePlayerProvider().initialize(Constants.UPLOAD_PLAYLIST, this);

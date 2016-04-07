@@ -10,20 +10,24 @@
 
     tools:context="com.robosoft.archana.youtubeapplication.ReviewActivity"
     tools:showIn="@layout/activity_review">
-   <FrameLayout
-       android:layout_width="match_parent"
-       android:layout_height="0dp"
-       android:layout_weight=".5">
-       <VideoView
-           android:layout_width="wrap_content"
-           android:id="@+id/videoView"
-           android:layout_gravity="center"
-           android:layout_height="wrap_content" />
-   </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5">
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#eee">
+
         <Button
             android:id="@+id/upload_button"
             style="?android:attr/borderlessButtonStyle"
