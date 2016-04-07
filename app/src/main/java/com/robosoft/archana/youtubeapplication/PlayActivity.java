@@ -16,19 +16,20 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.robosoft.archana.youtubeapplication.Util.Auth;
 
-public class PlayActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener{
+public class PlayActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     // YouTube player view
     private YouTubePlayerView youTubeView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         youTubeView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        youTubeView.initialize(Auth.API_KEY,this);
-
+        youTubeView.initialize(Auth.API_KEY, this);
 
 
     }
@@ -36,11 +37,8 @@ public class PlayActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
         if (!wasRestored) {
-
             // loadVideo() will auto play video
-            // Use cueVideo() method, if you don't want to play it automatically
             youTubePlayer.loadVideo(Constants.UPLOAD_PLAYLIST);
-
             // Hiding player controls
             youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
         }
@@ -48,7 +46,8 @@ public class PlayActivity extends YouTubeBaseActivity implements YouTubePlayer.O
 
     @Override
     public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-        if ( youTubeInitializationResult.isUserRecoverableError()) {
+
+        if (youTubeInitializationResult.isUserRecoverableError()) {
             youTubeInitializationResult.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
         } else {
             String errorMessage = String.format(
@@ -56,6 +55,7 @@ public class PlayActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RECOVERY_DIALOG_REQUEST) {
@@ -63,6 +63,7 @@ public class PlayActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             getYouTubePlayerProvider().initialize(Constants.UPLOAD_PLAYLIST, this);
         }
     }
+
     private YouTubePlayer.Provider getYouTubePlayerProvider() {
         return (YouTubePlayerView) findViewById(R.id.youtube_view);
     }

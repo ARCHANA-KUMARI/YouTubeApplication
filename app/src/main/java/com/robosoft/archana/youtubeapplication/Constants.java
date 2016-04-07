@@ -6,8 +6,8 @@ package com.robosoft.archana.youtubeapplication;
 public class Constants {
 
     public static final String ACCOUNT_KEY = "ms.archana57@gmail.com";
-    static final String REQUEST_AUTHORIZATION_INTENT = "com.google.example.yt.RequestAuth";
-    static final String REQUEST_AUTHORIZATION_INTENT_PARAM = "com.google.example.yt.RequestAuth.param";
+    public static final String REQUEST_AUTHORIZATION_INTENT = "com.google.example.yt.RequestAuth";
+    public static final String REQUEST_AUTHORIZATION_INTENT_PARAM = "com.google.example.yt.RequestAuth.param";
     public static final String YOUTUBE_ID = "youtubeId";
 
     // A playlist ID is a string that begins with PL. You must replace this string with the correct

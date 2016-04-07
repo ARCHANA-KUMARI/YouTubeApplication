@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private String mChosenAccountName;
     private Uri mFileURI = null;
     private GoogleAccountCredential mCredential;
-  private UploadBroadcastReceiver broadcastReceiver;
+    private UploadBroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
