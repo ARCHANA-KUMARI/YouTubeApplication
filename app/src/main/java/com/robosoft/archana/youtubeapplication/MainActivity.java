@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String mChosenAccountName;
     private Uri mFileURI = null;
-    GoogleAccountCredential credential;
+    private GoogleAccountCredential mCredential;
   private UploadBroadcastReceiver broadcastReceiver;
 
     @Override
@@ -81,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-      Log.i("Hello", "Main Activity Intent Data is" + data);/*Main Activity Intent Data isIntent { dat=content://media/external/video/media/40 (has extras) }*/
+     // Log.i("Hello", "Main Activity Intent Data is" + data);/*Main Activity Intent Data isIntent { dat=content://media/external/video/media/40 (has extras) }*/
         switch(requestCode){
             case Constants.RESULT_PICK_IMAGE_CROP:
 
                 if (resultCode == RESULT_OK) {
                     mFileURI = data.getData();
-               Log.i("Hello", "MainActivity mFileURI IS" + mFileURI);/* MainActivity mFileURI IScontent://media/external/video/media/40*/
+               //Log.i("Hello", "MainActivity mFileURI IS" + mFileURI);/* MainActivity mFileURI IScontent://media/external/video/media/40*/
                     if (mFileURI != null) {
                         Intent intent = new Intent(this, ReviewActivity.class);
                         intent.setData(mFileURI);
@@ -130,16 +130,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void chooseAccount() {
 
-        startActivityForResult(credential.newChooseAccountIntent(),
+        startActivityForResult( mCredential.newChooseAccountIntent(),
                 Constants.REQUEST_ACCOUNT_PICKER);
 
     }
     public void pickFile(View view) {
 
         Intent intent = new Intent(Intent.ACTION_PICK);
-        Log.i("Hello","Main Activity Intent is"+intent);/*Main Activity Intent isIntent { act=android.intent.action.PICK }*/
+       // Log.i("Hello","Main Activity Intent is"+intent);/*Main Activity Intent isIntent { act=android.intent.action.PICK }*/
         intent.setType("video/*");
-        Log.i("Hello", "Main Activity Intent is" + intent);/* Main Activity Intent isIntent { act=android.intent.action.PICK typ=video/* }*/
+       // Log.i("Hello", "Main Activity Intent is" + intent);/* Main Activity Intent isIntent { act=android.intent.action.PICK typ=video/* }*/
         startActivityForResult(intent, Constants.RESULT_PICK_IMAGE_CROP);
     }
 

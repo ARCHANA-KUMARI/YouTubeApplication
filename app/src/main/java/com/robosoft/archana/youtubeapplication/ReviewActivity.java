@@ -26,6 +26,7 @@ public class ReviewActivity extends AppCompatActivity {
     private MediaController mMediaController;
     private Button mUploadButton;
     private String mChosenAccountName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,7 @@ public class ReviewActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+
         mUploadButton = (Button)findViewById(R.id.upload_button);
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
@@ -49,7 +51,6 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void reviewVideo(Uri mFileUri) {
         try {
-
             mVideoView = (VideoView) findViewById(R.id.videoView);
             mMediaController = new MediaController(this);
             mVideoView.setMediaController( mMediaController);
