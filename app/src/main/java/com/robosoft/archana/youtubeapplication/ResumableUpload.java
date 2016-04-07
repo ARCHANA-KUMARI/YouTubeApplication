@@ -70,7 +70,6 @@ public class ResumableUpload {
                 .setContentText(context.getString(R.string.youtube_upload_started))
                 .setSmallIcon(R.drawable.ic_stat_device_access_video).setContentIntent(contentIntent).setStyle(new NotificationCompat.BigPictureStyle().bigPicture(thumbnail));
         notifyManager.notify(UPLOAD_NOTIFICATION_ID, builder.build());
-
         String videoId = null;
         try {
             // Add extra information to the video before uploading.
@@ -112,7 +111,6 @@ public class ResumableUpload {
             YouTube.Videos.Insert videoInsert =
                     youtube.videos().insert("snippet,statistics,status", videoObjectDefiningMetadata,
                             mediaContent);
-
             // Set the upload type and add event listener.
             MediaHttpUploader uploader = videoInsert.getMediaHttpUploader();
 
@@ -231,7 +229,7 @@ public class ResumableUpload {
                 }
             } else {
                // can't find the video
-               Log.e("Hello", String.format("Can't find video with ID [%s]", videoId));
+                Log.e("Hello", String.format("Can't find video with ID [%s]", videoId));
                 return false;
             }
         } catch (IOException e) {
