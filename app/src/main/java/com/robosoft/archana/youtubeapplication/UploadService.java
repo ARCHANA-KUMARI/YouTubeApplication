@@ -142,7 +142,7 @@ public class UploadService extends IntentService {
         mStartTime = System.currentTimeMillis();
         boolean processed = false;
         while (!processed) {
-           
+
             processed = ResumableUpload.checkIfProcessed(videoId, youtube);
             if (!processed) {
                 // wait a while

@@ -23,7 +23,7 @@ public class ReviewActivity extends AppCompatActivity {
 
     private Uri mFileUri;
     private VideoView mVideoView;
-    MediaController mc;
+    private MediaController mMediaController;
     private Button mUploadButton;
     private String mChosenAccountName;
     @Override
@@ -36,14 +36,12 @@ public class ReviewActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         mUploadButton = (Button)findViewById(R.id.upload_button);
-      //  mVideoView = (VideoView)findViewById(R.id.videoView);
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             mUploadButton.setVisibility(View.GONE);
             setTitle(R.string.playing_the_video_in_upload_progress);
         }
         mFileUri = intent.getData();
-        Log.i("Hello", "Review Activity File VIew is" + mFileUri);/*Review Activity File VIew iscontent://media/external/video/media/40*/
         loadAccount();
         reviewVideo(mFileUri);
 
@@ -51,12 +49,12 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void reviewVideo(Uri mFileUri) {
         try {
-            Log.i("Hello","Review Activity  FILE uri is"+mFileUri);/* Review Activity  FILE uri iscontent://media/external/video/media/40*/
+
             mVideoView = (VideoView) findViewById(R.id.videoView);
-            mc = new MediaController(this);
-            mVideoView.setMediaController(mc);
+            mMediaController = new MediaController(this);
+            mVideoView.setMediaController( mMediaController);
             mVideoView.setVideoURI(mFileUri);
-            mc.show();
+            mMediaController.show();
             mVideoView.start();
         } catch (Exception e) {
             Log.e(this.getLocalClassName(), e.toString());
@@ -71,13 +69,10 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     public void uploadVideo(View view) {
-        Log.i("Hello","I am uploadVideo Method of Review Activity");
-        Log.i("Hello","mChosenAccountName is"+mChosenAccountName);//NULL JUST FOR CHECK
-//        if (mChosenAccountName == null) {
-//            return;
-//        }
-        // if a video is picked or recorded.
-        Log.i("Hello","mFile uri is"+mFileUri);
+
+        if (mChosenAccountName == null) {
+          return;
+        }
         if (mFileUri != null) {
 
             Intent uploadIntent = new Intent(this, UploadService.class);
@@ -87,7 +82,6 @@ public class ReviewActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.youtube_upload_started,
                     Toast.LENGTH_LONG).show();
             // Go back to MainActivity after upload
-
             finish();
         }
     }
@@ -112,7 +106,6 @@ public class ReviewActivity extends AppCompatActivity {
         if(id==android.R.id.home){
             onBackPressed();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
