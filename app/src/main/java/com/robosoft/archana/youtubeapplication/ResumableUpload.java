@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GooglePlayServicesAvailabilityIOException;
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException;
@@ -81,7 +82,7 @@ public class ResumableUpload {
        * it to "unlisted" or "private" via API.
        */
             VideoStatus status = new VideoStatus();
-            status.setPrivacyStatus("private");
+            status.setPrivacyStatus("public");
             videoObjectDefiningMetadata.setStatus(status);
 
             // We set a majority of the metadata with the VideoSnippet object.
@@ -93,16 +94,13 @@ public class ResumableUpload {
        * and use your own standard names.
        */
             Calendar cal = Calendar.getInstance();
-            snippet.setTitle("Test Upload via java of YoutubeApplication on " + cal.getTime());
+            snippet.setTitle("Test Upload via java on " + cal.getTime());
             snippet.setDescription("Video uploaded via YouTube Data API V3 using the Java library by YouTubeApplicationApp "
                     + "on " + cal.getTime());
-
             // Set your keywords.
             snippet.setTags(Arrays.asList(Constants.DEFAULT_KEYWORD, Upload.generateKeywordFromPlaylistId(Constants.UPLOAD_PLAYLIST)));
-
             // Set completed snippet to the video object.
             videoObjectDefiningMetadata.setSnippet(snippet);
-
             InputStreamContent mediaContent =
                     new InputStreamContent(VIDEO_FILE_FORMAT, new BufferedInputStream(fileInputStream));
             mediaContent.setLength(fileSize);
@@ -158,22 +156,14 @@ public class ResumableUpload {
                 }
             };
             uploader.setProgressListener(progressListener);
-
             // Execute upload.
             Video returnedVideo = videoInsert.execute();
-            Log.i("Hello","Return Vedio is"+returnedVideo);
-            Log.d("Hello", "Video upload completed");
             videoId = returnedVideo.getId();
-            Log.d("Hello", String.format("videoId = [%s]", videoId));
         } catch (final GooglePlayServicesAvailabilityIOException availabilityException) {
-            Log.e("Hello", "GooglePlayServicesAvailabilityIOException", availabilityException);
             notifyFailedUpload(context, context.getString(R.string.cant_access_play), notifyManager, builder);
         } catch (UserRecoverableAuthIOException userRecoverableException) {
-            Log.i("Hello", String.format("UserRecoverableAuthIOException: %s",
-                    userRecoverableException.getMessage()));
             requestAuth(context, userRecoverableException);
         } catch (IOException e) {
-            Log.e("Hello", "IOException", e);
             notifyFailedUpload(context, context.getString(R.string.please_try_again), notifyManager, builder);
         }
         return videoId;
@@ -186,8 +176,9 @@ public class ResumableUpload {
         Intent runReqAuthIntent = new Intent(Constants.REQUEST_AUTHORIZATION_INTENT);
         runReqAuthIntent.putExtra(Constants.REQUEST_AUTHORIZATION_INTENT_PARAM, authIntent);
         manager.sendBroadcast(runReqAuthIntent);
-        Log.d("Hello", String.format("Sent broadcast %s", Constants.REQUEST_AUTHORIZATION_INTENT));
+
     }
+
     private static void notifyFailedUpload(Context context, String message, NotificationManager notifyManager,
                                            NotificationCompat.Builder builder) {
         builder.setContentTitle(context.getString(R.string.yt_upload_failed))
@@ -196,8 +187,8 @@ public class ResumableUpload {
         Log.e(ResumableUpload.class.getSimpleName(), message);
     }
 
-   public static void showSelectableNotification(String videoId, Context context) {
-        Log.d("Hello", String.format("Posting selectable notification for video ID [%s]", videoId));
+    public static void showSelectableNotification(String videoId, Context context) {
+
         final NotificationManager notifyManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
@@ -214,7 +205,7 @@ public class ResumableUpload {
             builder.setContentTitle(context.getString(R.string.watch_your_video))
                     .setContentText(context.getString(R.string.see_the_newly_uploaded_video)).setContentIntent(contentIntent).setSmallIcon(R.drawable.ic_stat_device_access_video).setStyle(new NotificationCompat.BigPictureStyle().bigPicture(thumbnail));
             notifyManager.notify(PLAYBACK_NOTIFICATION_ID, builder.build());
-            Log.d("Hello", String.format("Selectable notification for video ID [%s] posted", videoId));
+
         } catch (MalformedURLException e) {
             Log.e("Hello", e.getMessage());
         } catch (IOException e) {
@@ -223,8 +214,10 @@ public class ResumableUpload {
     }
 
     private static final String SUCCEEDED = "succeeded";
+
     public static boolean checkIfProcessed(String videoId, YouTube youtube) {
         try {
+
             YouTube.Videos.List list = youtube.videos().list("processingDetails");
             list.setId(videoId);
             VideoListResponse listResponse = list.execute();
@@ -237,8 +230,8 @@ public class ResumableUpload {
                     return true;
                 }
             } else {
-                // can't find the video
-                Log.e("Hello", String.format("Can't find video with ID [%s]", videoId));
+               // can't find the video
+               Log.e("Hello", String.format("Can't find video with ID [%s]", videoId));
                 return false;
             }
         } catch (IOException e) {
